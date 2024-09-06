@@ -6,22 +6,23 @@
     <title>CryptoForge</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             color: #333;
-            background-color: #f4f4f4;
+            background-color: #eaeaea;
         }
         header {
-            background-color: #007bff;
-            color: #fff;
-            padding: 15px 0;
+            background-color: #1e2a38;
+            color: #ffffff;
+            padding: 20px 0;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         header h1 {
             margin: 0;
-            font-size: 2em;
+            font-size: 2.5em;
+            font-weight: 700;
         }
         nav ul {
             list-style: none;
@@ -30,38 +31,49 @@
         }
         nav ul li {
             display: inline;
-            margin: 0 10px;
+            margin: 0 20px;
         }
         nav ul li a {
-            color: #fff;
+            color: #ffffff;
             text-decoration: none;
-            font-weight: bold;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
         }
         .container {
-            width: 90%;
+            width: 85%;
             max-width: 1200px;
-            margin: 20px auto;
-            overflow: hidden;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         .section {
             margin-bottom: 40px;
         }
         .card {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            background: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         .card h2 {
             margin-top: 0;
-            font-size: 1.5em;
-            color: #007bff;
+            font-size: 1.8em;
+            color: #2c3e50;
+        }
+        .card article h3 {
+            font-size: 1.4em;
+            color: #34495e;
         }
         footer {
-            background-color: #333;
-            color: #fff;
+            background-color: #1e2a38;
+            color: #ffffff;
             text-align: center;
             padding: 15px 0;
             position: relative;
@@ -70,18 +82,18 @@
         }
         .btn {
             display: inline-block;
-            padding: 10px 20px;
-            font-size: 1em;
-            color: #fff;
-            background-color: #007bff;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            color: #ffffff;
+            background-color: #3498db;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             text-decoration: none;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         .btn:hover {
-            background-color: #0056b3;
+            background-color: #2980b9;
         }
     </style>
 </head>
@@ -101,7 +113,7 @@
         <section id="home" class="section">
             <div class="card">
                 <h2>Vítejte na CryptoForge</h2>
-                <p>Váš zdroj pro nejnovější informace o kryptoměnách, analýzy trhu a návody na investování. Zůstaňte informováni a buďte součástí kryptoměnové revoluce!</p>
+                <p>Objevte nejnovější informace o kryptoměnách, analýzy trhu a odborné návody na investování. Připojte se k nám a zůstaňte na špici kryptoměnového světa!</p>
                 <a href="#news" class="btn">Číst novinky</a>
             </div>
         </section>
@@ -109,11 +121,11 @@
         <section id="news" class="section">
             <div class="card">
                 <h2>Novinky</h2>
-                <p>Aktuální zprávy a aktualizace ze světa kryptoměn. Sledujte nejnovější trendy a události, které ovlivňují trh.</p>
+                <p>Sledujte aktuální zprávy a aktualizace ze světa kryptoměn. Buďte informováni o nejnovějších trendech a událostech, které ovlivňují trh.</p>
                 <!-- Příklad článku -->
                 <article>
                     <h3>Bitcoin dosáhl nového rekordu!</h3>
-                    <p>Bitcoin překonal další historické maximum. Co to znamená pro investory? Přečtěte si více a zjistěte, jaké jsou predikce pro budoucnost.</p>
+                    <p>Bitcoin překonal další historické maximum. Co to znamená pro investory? Přečtěte si naše analýzy a predikce pro budoucnost.</p>
                     <a href="#" class="btn">Přečíst více</a>
                 </article>
             </div>
@@ -122,11 +134,11 @@
         <section id="guides" class="section">
             <div class="card">
                 <h2>Průvodci</h2>
-                <p>Kompletní návody na nákup, uchovávání a investování do kryptoměn. Naučte se, jak efektivně spravovat svá digitální aktiva a zůstat v bezpečí.</p>
+                <p>Nabízíme komplexní návody na nákup, uchovávání a investování do kryptoměn. Naučte se, jak efektivně spravovat svá digitální aktiva a minimalizovat rizika.</p>
                 <!-- Příklad průvodce -->
                 <article>
                     <h3>Jak bezpečně uchovávat kryptoměny?</h3>
-                    <p>Tipy a triky pro bezpečné uchovávání vašich digitálních aktiv. Zjistěte, jaké možnosti jsou k dispozici a jaké jsou nejlepší praxe.</p>
+                    <p>Objevte tipy a triky pro bezpečné uchovávání vašich kryptoměn. Zjistěte, jaké jsou nejlepší praxe a jak ochránit své investice.</p>
                     <a href="#" class="btn">Přečíst průvodce</a>
                 </article>
             </div>
