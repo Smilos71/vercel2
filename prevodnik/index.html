@@ -51,46 +51,11 @@
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            text-align: center;
-            color: #f7931a; /* Bitcoin orange */
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group select, .form-group input {
+        iframe {
             width: 100%;
-            padding: 10px;
-            font-size: 1em;
-            border: 1px solid #dddddd;
-            border-radius: 4px;
-        }
-        .result {
-            font-size: 1.2em;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1em;
-            color: #ffffff;
-            background-color: #f7931a; /* Bitcoin orange */
+            height: 600px;
             border: none;
-            border-radius: 6px;
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .btn:hover {
-            background-color: #e5821d; /* Darker Bitcoin orange */
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -108,95 +73,9 @@
     </header>
 
     <div class="container">
-        <h1>Převodník měn a kryptoměn</h1>
-        <div class="form-group">
-            <label for="from-currency">Vyberte měnu/kryptoměnu:</label>
-            <select id="from-currency">
-                <option value="EUR">EUR</option>
-                <option value="CZK">CZK</option>
-                <option value="USD">USD</option>
-                <option value="BTC">BTC</option>
-                <option value="ETH">ETH</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="to-currency">Na:</label>
-            <select id="to-currency">
-                <option value="EUR">EUR</option>
-                <option value="CZK">CZK</option>
-                <option value="USD">USD</option>
-                <option value="BTC">BTC</option>
-                <option value="ETH">ETH</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="amount">Množství:</label>
-            <input type="number" id="amount" placeholder="Zadejte množství" step="0.01">
-        </div>
-        <button class="btn" onclick="convert()">Převést</button>
-        <div class="result" id="result">Výsledek se zobrazí zde</div>
+        <iframe src="https://example.com/converter" title="Převodník měn a kryptoměn"></iframe>
     </div>
-
-    <script>
-        async function convert() {
-            const fromCurrency = document.getElementById('from-currency').value;
-            const toCurrency = document.getElementById('to-currency').value;
-            const amount = parseFloat(document.getElementById('amount').value);
-
-            if (isNaN(amount) || amount <= 0) {
-                document.getElementById('result').textContent = 'Zadejte platné množství.';
-                return;
-            }
-
-            let exchangeRate = 1;
-
-            if (fromCurrency === toCurrency) {
-                document.getElementById('result').textContent = `Výsledek: ${amount.toFixed(2)} ${toCurrency}`;
-                return;
-            }
-
-            try {
-                // FIAT měny
-                if (['EUR', 'CZK', 'USD'].includes(fromCurrency) && ['EUR', 'CZK', 'USD'].includes(toCurrency)) {
-                    const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
-                    const data = await response.json();
-                    exchangeRate = data.rates[toCurrency];
-                }
-                // Kryptoměny
-                else if (['BTC', 'ETH'].includes(fromCurrency) && ['BTC', 'ETH'].includes(toCurrency)) {
-                    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
-                    const data = await response.json();
-                    const usdFrom = data[fromCurrency.toLowerCase()].usd;
-                    const usdTo = data[toCurrency.toLowerCase()].usd;
-                    exchangeRate = usdTo / usdFrom;
-                }
-                // FIAT na kryptoměny
-                else if (['EUR', 'CZK', 'USD'].includes(fromCurrency) && ['BTC', 'ETH'].includes(toCurrency)) {
-                    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
-                    const data = await response.json();
-                    const usdFrom = (fromCurrency === 'USD') ? amount : amount * (await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`).then(res => res.json())).rates['USD'];
-                    const usdTo = data[toCurrency.toLowerCase()].usd;
-                    exchangeRate = usdTo / usdFrom;
-                }
-                // Kryptoměny na FIAT
-                else if (['BTC', 'ETH'].includes(fromCurrency) && ['EUR', 'CZK', 'USD'].includes(toCurrency)) {
-                    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
-                    const data = await response.json();
-                    const usdFrom = amount * data[fromCurrency.toLowerCase()].usd;
-                    exchangeRate = (toCurrency === 'USD') ? usdFrom : usdFrom / (await fetch(`https://api.exchangerate-api.com/v4/latest/${toCurrency}`).then(res => res.json())).rates['USD'];
-                } else {
-                    document.getElementById('result').textContent = 'Nepodporovaný převod.';
-                    return;
-                }
-            } catch (error) {
-                document.getElementById('result').textContent = 'Chyba při načítání dat.';
-                return;
-            }
-
-            const result = amount * exchangeRate;
-            document.getElementById('result').textContent = `Výsledek: ${result.toFixed(2)} ${toCurrency}`;
-        }
-    </script>
 </body>
 </html>
+
 
