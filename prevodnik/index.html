@@ -155,53 +155,41 @@
                 return;
             }
 
-            if (['EUR', 'CZK', 'USD'].includes(fromCurrency) && ['EUR', 'CZK', 'USD'].includes(toCurrency)) {
-                // Převod mezi FIAT měnami
-                try {
+            try {
+                // FIAT měny
+                if (['EUR', 'CZK', 'USD'].includes(fromCurrency) && ['EUR', 'CZK', 'USD'].includes(toCurrency)) {
                     const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
                     const data = await response.json();
                     exchangeRate = data.rates[toCurrency];
-                } catch (error) {
-                    document.getElementById('result').textContent = 'Chyba při načítání dat.';
-                    return;
                 }
-            } else if (['BTC', 'ETH'].includes(fromCurrency) && ['BTC', 'ETH'].includes(toCurrency)) {
-                // Převod mezi kryptoměnami
-                try {
+                // Kryptoměny
+                else if (['BTC', 'ETH'].includes(fromCurrency) && ['BTC', 'ETH'].includes(toCurrency)) {
                     const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
                     const data = await response.json();
                     const usdFrom = data[fromCurrency.toLowerCase()].usd;
                     const usdTo = data[toCurrency.toLowerCase()].usd;
                     exchangeRate = usdTo / usdFrom;
-                } catch (error) {
-                    document.getElementById('result').textContent = 'Chyba při načítání dat.';
-                    return;
                 }
-            } else if (['EUR', 'CZK', 'USD'].includes(fromCurrency) && ['BTC', 'ETH'].includes(toCurrency)) {
-                // Převod z FIAT měny na kryptoměnu
-                try {
+                // FIAT na kryptoměny
+                else if (['EUR', 'CZK', 'USD'].includes(fromCurrency) && ['BTC', 'ETH'].includes(toCurrency)) {
                     const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
                     const data = await response.json();
-                    const usdAmount = amount * (fromCurrency === 'USD' ? 1 : data[fromCurrency.toLowerCase()].usd);
-                    exchangeRate = 1 / data[toCurrency.toLowerCase()].usd;
-                    exchangeRate *= usdAmount;
-                } catch (error) {
-                    document.getElementById('result').textContent = 'Chyba při načítání dat.';
-                    return;
+                    const usdFrom = (fromCurrency === 'USD') ? amount : amount * (await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`).then(res => res.json())).rates['USD'];
+                    const usdTo = data[toCurrency.toLowerCase()].usd;
+                    exchangeRate = usdTo / usdFrom;
                 }
-            } else if (['BTC', 'ETH'].includes(fromCurrency) && ['EUR', 'CZK', 'USD'].includes(toCurrency)) {
-                // Převod z kryptoměny na FIAT měnu
-                try {
+                // Kryptoměny na FIAT
+                else if (['BTC', 'ETH'].includes(fromCurrency) && ['EUR', 'CZK', 'USD'].includes(toCurrency)) {
                     const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
                     const data = await response.json();
-                    const usdAmount = amount * data[fromCurrency.toLowerCase()].usd;
-                    exchangeRate = usdAmount / (toCurrency === 'USD' ? 1 : data[toCurrency.toLowerCase()].usd);
-                } catch (error) {
-                    document.getElementById('result').textContent = 'Chyba při načítání dat.';
+                    const usdFrom = amount * data[fromCurrency.toLowerCase()].usd;
+                    exchangeRate = (toCurrency === 'USD') ? usdFrom : usdFrom / (await fetch(`https://api.exchangerate-api.com/v4/latest/${toCurrency}`).then(res => res.json())).rates['USD'];
+                } else {
+                    document.getElementById('result').textContent = 'Nepodporovaný převod.';
                     return;
                 }
-            } else {
-                document.getElementById('result').textContent = 'Nepodporovaný převod.';
+            } catch (error) {
+                document.getElementById('result').textContent = 'Chyba při načítání dat.';
                 return;
             }
 
