@@ -161,6 +161,37 @@
                     <a href="#" class="btn">Přečíst průvodce</a>
                 </article>
             </div>
+            <section id="home" class="section">
+    <div class="card">
+        <h2>Vítejte na CryptoForge</h2>
+        <p>Objevte nejnovější informace o kryptoměnách a zůstaňte na špici trhu s našimi aktuálními analýzami a zprávami.</p>
+        <div id="crypto-prices">
+            <h3>Aktuální ceny kryptoměn:</h3>
+            <p><strong>Bitcoin (BTC):</strong> <span id="btc-price">Načítání...</span></p>
+            <p><strong>Ethereum (ETH):</strong> <span id="eth-price">Načítání...</span></p>
+        </div>
+        <a href="#news" class="btn">Číst novinky</a>
+    </div>
+    <div class="ad">
+        <iframe data-aa='2351059' src='//acceptable.a-ads.com/2351059'></iframe>
+    </div>
+</section>
+
+<script>
+    // Funkce pro načítání aktuálních cen kryptoměn
+    async function fetchCryptoPrices() {
+        try {
+            let response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
+            let data = await response.json();
+            document.getElementById('btc-price').textContent = `$${data.bitcoin.usd}`;
+            document.getElementById('eth-price').textContent = `$${data.ethereum.usd}`;
+        } catch (error) {
+            document.getElementById('btc-price').textContent = 'Chyba při načítání';
+            document.getElementById('eth-price').textContent = 'Chyba při načítání';
+        }
+    }
+    fetchCryptoPrices();
+</script>
             <div class="ad">
                 <iframe data-aa='2351059' src='//acceptable.a-ads.com/2351059'></iframe>
             </div>
